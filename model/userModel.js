@@ -23,4 +23,25 @@ const getUserByEmailOrPhone = async (email, phone) => {
   return rows[0];
 };
 
-module.exports = { findUserByEmail, createUser, getUserByEmailOrPhone };
+const findUserByGoogleId = async (googleId) => {
+  const [rows] = await db.query(
+    "SELECT * FROM miki_users WHERE google_id = ?",
+    [googleId]
+  );
+  return rows[0];
+};
+
+const createUserWithGoogle = async (name, email, googleId) => {
+  await db.query(
+    "INSERT INTO miki_users (name, email, google_id) VALUES (?, ?, ?)",
+    [name, email, googleId]
+  );
+};
+
+module.exports = {
+  findUserByEmail,
+  createUser,
+  getUserByEmailOrPhone,
+  findUserByGoogleId,
+  createUserWithGoogle,
+};

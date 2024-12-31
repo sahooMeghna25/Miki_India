@@ -1,4 +1,7 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const verifyToken = require("../utils/verifyToken");
+const SECRET_KEY = "gfg_jwt_secret_key";
 const { validateInput, validateLoginInput } = require("../utils/validation");
 const {
   findUserByEmail,
@@ -66,8 +69,12 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid password." });
     }
 
-    // Successful login
-    res.status(200).json({ message: "Login successful!" });
+    // Generate Jwt token here
+    const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
+      expiresIn: "3000ms",
+    });
+    res.status(200).json({ token, message: "Login Successful!" });
+    verifyToken(req, res, () => {});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error. Please try again later." });
