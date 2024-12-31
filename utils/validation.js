@@ -32,7 +32,8 @@ const validateInput = ({ name, email, phone, password, confirmPassword }) => {
     );
   }
 
-  if (password !== confirmPassword) {
+  // Validate confirmPassword only if both password and confirmPassword are provided
+  if (password && confirmPassword && password !== confirmPassword) {
     errors.push("Passwords do not match.");
   }
 
