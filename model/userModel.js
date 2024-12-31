@@ -10,7 +10,7 @@ const findUserByEmail = async (email) => {
 const createUser = async (name, email, phone, password) => {
   await db.query(
     "INSERT INTO miki_users (name, email, phone, password) VALUES (?, ?, ?, ?)",
-    [name, email, phone || null, password]
+    [name, email, phone || null, password || null]
   );
 };
 
